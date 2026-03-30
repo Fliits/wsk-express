@@ -1,0 +1,35 @@
+GET http://127.0.0.1:3000/api/v1/user
+
+###
+POST http://127.0.0.1:3000/api/v1/user
+Content-Type: application/json
+
+{
+  "name": "Alice",
+  "username": "alice",
+  "email": "alice@example.com",
+  "role": "user",
+  "password": "password789"
+}
+
+
+###  getbyID
+GET http://127.0.0.1:3000/api/v1/user/9594
+
+
+###
+PUT http://127.0.0.1:3000/api/v1/user/9594
+
+{
+  "name": "Alice",
+  "username": "alice",
+  "email": "alice@example.com",
+  "role": "user",
+  "password": "password789"
+}
+
+
+###
+DELETE http://127.0.0.1:3000/api/v1/user/9594
+
+

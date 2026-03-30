@@ -1,12 +1,21 @@
 import express from "express";
-const hostname = "127.0.0.1";
+import api from "./api/index.js";
 const app = express();
-const port = 3000;
+
+// Parses incoming requests with JSON payloads
+app.use(express.json());
+// Parses URL-encoded form data (like HTML forms)
+app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
   res.send("Welcome to my REST API!");
 });
 
-app.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
+app.post("/", (req, res) => {
+  console.log(req.body);
+  res.json({ ok: true, data: req.body });
 });
+
+app.use("/api/v1", api);
+
+export default app;

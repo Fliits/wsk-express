@@ -1,0 +1,30 @@
+GET http://127.0.0.1:3000/api/v1/cat
+
+###
+POST http://127.0.0.1:3000/api/v1/cat
+Content-Type: application/json
+
+{
+  "name": "Alice",
+  "weight": 4.5,
+  "owner": "Bob"
+}
+
+
+###  getbyID
+GET http://127.0.0.1:3000/api/v1/cat/1
+
+
+###
+PUT http://127.0.0.1:3000/api/v1/cat/1
+
+{
+  "name": "Alice",
+  "weight": 4.5,
+  "owner": "Bob"
+}
+
+
+###
+DELETE http://127.0.0.1:3000/api/v1/cat/1
+
