@@ -33,16 +33,17 @@ GET http://127.0.0.1:3000/api/v1/cat/41
 
 
 ###
-PUT http://127.0.0.1:3000/api/v1/cat/1
+PUT http://127.0.0.1:3000/api/v1/cat/44
+Content-Type: application/json
 
 {
   "cat_name": "Alice",
   "weight": 4.5,
-  "owner": "Bob",
+  "owner": 37,
   "birthdate": "2020-01-01"
 }
 
 
 ###
-DELETE http://127.0.0.1:3000/api/v1/cat/1
+DELETE http://127.0.0.1:3000/api/v1/cat/44
 

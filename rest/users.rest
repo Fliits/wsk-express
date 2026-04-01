@@ -14,11 +14,11 @@ Content-Type: application/json
 
 
 ###  getbyID
-GET http://127.0.0.1:3000/api/v1/user/9594
+GET http://127.0.0.1:3000/api/v1/user/37
 
 
 ###
-PUT http://127.0.0.1:3000/api/v1/user/9594
+PUT http://127.0.0.1:3000/api/v1/user/38
 
 {
   "name": "Alice",
@@ -30,6 +30,6 @@ PUT http://127.0.0.1:3000/api/v1/user/9594
 
 
 ###
-DELETE http://127.0.0.1:3000/api/v1/user/9594
+DELETE http://127.0.0.1:3000/api/v1/user/40
 
 

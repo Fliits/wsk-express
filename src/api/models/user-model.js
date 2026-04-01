@@ -18,26 +18,65 @@ const userItems = [
   },
 ];
 
-const listAllUsers = () => {
-  return userItems;
+import promisePool from "../../utils/database.js";
+
+const listAllUsers = async () => {
+  const [rows] = await promisePool.query("SELECT * FROM wsk_users");
+  console.log("rows", rows);
+  return rows;
 };
 
-const findUserById = (id) => {
-  return userItems.find((item) => item.user_id == id);
+const findUserById = async (id) => {
+  const [rows] = await promisePool.execute(
+    "SELECT * FROM wsk_users WHERE user_id = ?",
+    [id],
+  );
+  console.log("rows", rows);
+  if (rows.length === 0) {
+    return false;
+  }
+  return rows[0];
 };
 
-const addUser = (user) => {
+const addUser = async (user) => {
   const { name, username, email, role, password } = user;
-  const newId = userItems[0].user_id + 1;
-  userItems.unshift({
-    user_id: newId,
-    name,
-    username,
-    email,
-    role,
-    password,
-  });
-  return { user_id: newId };
+  const sql = `INSERT INTO wsk_users (name, username, email, role, password)
+               VALUES (?, ?, ?, ?, ?)`;
+  const params = [name, username, email, role, password];
+  const [result] = await promisePool.execute(sql, params);
+  console.log("result", result);
+  if (result.affectedRows === 0) {
+    return false;
+  }
+  return { user_id: result.insertId };
 };
 
-export { listAllUsers, findUserById, addUser };
+const modifyUser = async (user, id) => {
+  const sql = promisePool.format(`UPDATE wsk_users SET ? WHERE user_id = ?`, [
+    user,
+    id,
+  ]);
+  console.log("sql", sql);
+  const [result] = await promisePool.execute(sql);
+  console.log("result", result);
+  if (result.affectedRows === 0) {
+    return false;
+  }
+  return { message: "success" };
+};
+
+const removeUser = async (id) => {
+  const sql = promisePool.format(`DELETE FROM wsk_users WHERE user_id = ?`, [
+    id,
+  ]);
+  console.log("sql", sql);
+  const [result] = await promisePool.execute(sql);
+  console.log("result", result);
+  if (result.affectedRows === 0) {
+    return false;
+  }
+  return { message: "success" };
+};
+
+export { listAllUsers, findUserById, addUser, modifyUser, removeUser };
+// export only the functions that are used in the controller, the rest is homework

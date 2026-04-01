@@ -57,6 +57,7 @@ const modifyCat = async (cat, id) => {
     cat,
     id,
   ]);
+  console.log("sql", sql);
   const [result] = await promisePool.execute(sql);
   console.log("result", result);
   if (result.affectedRows === 0) {
@@ -66,10 +67,12 @@ const modifyCat = async (cat, id) => {
 };
 
 const removeCat = async (id) => {
-  const [result] = await promisePool.execute(
+  const sql = await promisePool.format(
     "DELETE FROM wsk_cats WHERE cat_id = ?",
     [id],
   );
+  console.log("sql", sql);
+  const [result] = await promisePool.execute(sql);
   console.log("result", result);
   if (result.affectedRows === 0) {
     return false;

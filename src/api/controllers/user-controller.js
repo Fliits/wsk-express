@@ -1,14 +1,21 @@
-import { addUser, findUserById, listAllUsers } from "../models/user-model.js";
+import {
+  addUser,
+  findUserById,
+  listAllUsers,
+  removeUser,
+  modifyUser,
+} from "../models/user-model.js";
 
-const getUser = (req, res) => {
+const getUser = async (req, res) => {
   //res.json(listAllUsers());
 
   console.log("get user", req);
-  res.json({ ok: true, data: listAllUsers() });
+  const users = await listAllUsers();
+  res.json({ ok: true, data: users });
 };
 
-const getUserById = (req, res) => {
-  const user = findUserById(req.params.id);
+const getUserById = async (req, res) => {
+  const user = await findUserById(req.params.id);
   if (user) {
     res.json(user);
   } else {
@@ -16,8 +23,8 @@ const getUserById = (req, res) => {
   }
 };
 
-const postUser = (req, res) => {
-  const result = addUser(req.body);
+const postUser = async (req, res) => {
+  const result = await addUser(req.body);
   if (result.user_id) {
     res.status(201);
     res.json({ message: "New user added.", result });
@@ -26,16 +33,22 @@ const postUser = (req, res) => {
   }
 };
 
-const putUser = (req, res) => {
-  // not implemented in this example, this is homework
-  res.sendStatus(200);
-  res.json({ message: "user item updated." });
+const putUser = async (req, res) => {
+  const result = await modifyUser(req.body, req.params.id);
+  if (result.message === "success") {
+    res.json({ message: "User item updated." });
+  } else {
+    res.sendStatus(404);
+  }
 };
 
-const deleteUser = (req, res) => {
-  // not implemented in this example, this is homework
-  res.sendStatus(200);
-  res.json({ message: "user item deleted." });
+const deleteUser = async (req, res) => {
+  const result = await removeUser(req.params.id);
+  if (result.message === "success") {
+    res.json({ message: "User item deleted." });
+  } else {
+    res.sendStatus(404);
+  }
 };
 
 export { getUser, getUserById, postUser, putUser, deleteUser };
