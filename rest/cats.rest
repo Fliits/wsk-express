@@ -15,7 +15,7 @@ Content-Disposition: form-data; name="weight"
 --MyBoundary
 Content-Disposition: form-data; name="owner"
 
-3602
+37
 --MyBoundary
 Content-Disposition: form-data; name="birthdate"
 
@@ -29,7 +29,7 @@ Content-Type: image/jpeg
 
 
 ###  getbyID
-GET http://127.0.0.1:3000/api/v1/cat/1
+GET http://127.0.0.1:3000/api/v1/cat/41
 
 
 ###

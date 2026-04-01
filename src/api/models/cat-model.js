@@ -1,4 +1,5 @@
 // mock data
+
 const catItems = [
   {
     cat_id: 9592,
@@ -18,26 +19,62 @@ const catItems = [
   },
 ];
 
-const listAllCats = () => {
-  return catItems;
+import promisePool from "../../utils/database.js";
+
+const listAllCats = async () => {
+  const [rows] = await promisePool.query("SELECT * FROM wsk_cats");
+  console.log("rows", rows);
+  return rows;
 };
 
-const findCatById = (id) => {
-  return catItems.find((item) => item.cat_id == id);
+const findCatById = async (id) => {
+  const [rows] = await promisePool.execute(
+    "SELECT * FROM wsk_cats WHERE cat_id = ?",
+    [id],
+  );
+  console.log("rows", rows);
+  if (rows.length === 0) {
+    return false;
+  }
+  return rows[0];
 };
 
-const addCat = (cat) => {
+const addCat = async (cat) => {
   const { cat_name, weight, owner, filename, birthdate } = cat;
-  const newId = catItems[0].cat_id + 1;
-  catItems.unshift({
-    cat_id: newId,
-    cat_name,
-    weight,
-    owner,
-    filename,
-    birthdate,
-  });
-  return { cat_id: newId };
+  const sql = `INSERT INTO wsk_cats (cat_name, weight, owner, filename, birthdate)
+               VALUES (?, ?, ?, ?, ?)`;
+  const params = [cat_name, weight, owner, filename, birthdate];
+  const [result] = await promisePool.execute(sql, params);
+  console.log("result", result);
+  if (result.affectedRows === 0) {
+    return false;
+  }
+  return { cat_id: result.insertId };
 };
 
-export { listAllCats, findCatById, addCat };
+const modifyCat = async (cat, id) => {
+  const sql = promisePool.format(`UPDATE wsk_cats SET ? WHERE cat_id = ?`, [
+    cat,
+    id,
+  ]);
+  const [result] = await promisePool.execute(sql);
+  console.log("result", result);
+  if (result.affectedRows === 0) {
+    return false;
+  }
+  return { message: "success" };
+};
+
+const removeCat = async (id) => {
+  const [result] = await promisePool.execute(
+    "DELETE FROM wsk_cats WHERE cat_id = ?",
+    [id],
+  );
+  console.log("result", result);
+  if (result.affectedRows === 0) {
+    return false;
+  }
+  return { message: "success" };
+};
+
+export { listAllCats, findCatById, addCat, modifyCat, removeCat };
