@@ -31,7 +31,7 @@ const getMe = async (req, res) => {
   if (res.locals.user) {
     res.json({ message: "User found", user: res.locals.user });
   } else {
-    res.sendStatus(404);
+    res.sendStatus(401);
   }
 };
 

@@ -5,7 +5,7 @@ POST http://localhost:3000/api/v1/auth/login
 content-type: application/json
 
 {
-  "email": "johndoe@example.com",
+  //"email": "johndoe@example.com",
   "username": "JohnDoe",
   "password": "to-be-hashed-pw1"
 }
