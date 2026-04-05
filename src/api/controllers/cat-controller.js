@@ -19,16 +19,20 @@ const getCatById = async (req, res) => {
   }
 };
 
-const postCat = async (req, res) => {
+const postCat = async (req, res, next) => {
+  if (!req.file) {
+    const error = new Error("Image file is required.");
+    error.status = 400;
+    next(error);
+  }
   console.log("post cat", req.file);
   req.body.filename = req.file.filename;
+  req.body.owner = res.locals.user.user_id;
   const result = await addCat(req.body);
-  if (result.cat_id) {
-    res.status(201);
-    res.json({ message: "New cat added.", result });
-  } else {
-    res.sendStatus(400);
+  if (result.error) {
+    return next(new Error(result.error));
   }
+  res.sendStatus(201).json({ message: "New cat added.", result });
 };
 
 const putCat = async (req, res) => {

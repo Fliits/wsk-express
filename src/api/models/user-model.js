@@ -78,5 +78,24 @@ const removeUser = async (id) => {
   return { message: "success" };
 };
 
-export { listAllUsers, findUserById, addUser, modifyUser, removeUser };
+const findUserByUsernamename = async (username) => {
+  const [rows] = await promisePool.execute(
+    "SELECT * FROM wsk_users WHERE username = ?",
+    [username],
+  );
+  console.log("rows", rows);
+  if (rows.length === 0) {
+    return false;
+  }
+  return rows[0];
+};
+
+export {
+  listAllUsers,
+  findUserById,
+  addUser,
+  modifyUser,
+  removeUser,
+  findUserByUsernamename,
+};
 // export only the functions that are used in the controller, the rest is homework

@@ -1,0 +1,16 @@
+
+@token = <put-your-token-from-login-response-here>
+### Post login
+POST http://localhost:3000/api/v1/auth/login
+content-type: application/json
+
+{
+  "email": "johndoe@example.com",
+  "username": "JohnDoe",
+  "password": "to-be-hashed-pw1"
+}
+
+
+### Get my user info
+GET http://localhost:3000/api/v1/auth/me
+Authorization: Bearer {{token}}

@@ -13,10 +13,6 @@ Content-Disposition: form-data; name="weight"
 
 6
 --MyBoundary
-Content-Disposition: form-data; name="owner"
-
-37
---MyBoundary
 Content-Disposition: form-data; name="birthdate"
 
 2023-10-08
