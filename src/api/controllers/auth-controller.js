@@ -4,24 +4,24 @@ import jwt from "jsonwebtoken";
 import "dotenv/config.js";
 
 const postLogin = async (req, res) => {
-  console.log("pody", body);
+  console.log("pody", req.body);
   const { username, password } = req.body;
   const user = await findUserByUsernamename(username);
   if (!user) {
-    res.status(401);
+    res.status(401).json({ message: "Invalid credentials" });
     return;
   }
 
   const passwordMatch = await bcrypt.compare(password, user.password);
   if (!passwordMatch) {
-    res.status(401);
+    res.status(401).json({ message: "Invalid credentials" });
     return;
   }
 
   delete user.password;
 
   const token = jwt.sign(user, process.env.JWT_SECRET, {
-    expiresnIn: "24h",
+    //expiresnIn: "24h",
   });
   res.json({ user, token });
 };

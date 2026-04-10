@@ -79,6 +79,7 @@ const removeUser = async (id) => {
 };
 
 const findUserByUsernamename = async (username) => {
+  console.log("findUserByUsernamename", username);
   const [rows] = await promisePool.execute(
     "SELECT * FROM wsk_users WHERE username = ?",
     [username],

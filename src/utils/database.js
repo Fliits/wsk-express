@@ -3,6 +3,7 @@ import mysql from "mysql2";
 // it can be done also e.g. in index.js but just make sure
 // that it is imported before using process.env variables
 import "dotenv/config";
+console.log(process.env);
 
 // Create the connection pool. Pool is used to improve performance
 // by reusing existing connections instead of creating new
